@@ -20,6 +20,7 @@
     .form-group {
       margin-bottom: 15px;
     }
+
     button {
     padding: 10px 16px;
     font-size: 16px;
@@ -34,12 +35,24 @@
     background-color: #ddd;
     }
 
+    .gobackbutton {
+    padding: 10px 16px;
+    font-size: 16px;
+    right: 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    float: right;
+    margin-top: -50px;
+    }
+
   </style>
 </head>
 <body>
 
 <h2>Checkout</h2>
-    <button onclick="history.back()">Go Back</button>
+    <button class="gobackbutton" onclick="history.back()">Go Back</button>
 
 
 <div id="checkout-cart"></div>
@@ -49,15 +62,15 @@
 <form id="order-form">
   <div class="form-group">
     <label>Name:</label><br>
-    <input type="text" name="name" required />
+    <input type="text" name="name" placeholder="Juan Dalisay" required />
   </div>
   <div class="form-group">
     <label>Email:</label><br>
-    <input type="email" name="email" required />
+    <input type="email" name="email" placeholder="jlfoodsnow@gmail.com" required />
   </div>
   <div class="form-group">
     <label>Address:</label><br>
-    <textarea name="address" required></textarea>
+    <textarea name="address" placeholder="1234 Mactan St. Guadalupe Nuevo" required></textarea>
   </div>
   <div class="form-group">
     <label>Contact Number:</label><br>
