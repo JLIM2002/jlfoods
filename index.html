@@ -29,7 +29,7 @@
     .hero {
       background-image: url('your-food-image.jpg');
       background-size: cover;
-      height: 300px;
+      height: 150px;
       color: white;
       display: flex;
       align-items: center;
@@ -47,8 +47,9 @@
       color: white;
       text-align: center;
       padding: 10px;
+      margin-top: 10px;
     }
-
+/* Product Grid */
     .product-grid {
       display: flex;
       gap: 15px;
@@ -102,6 +103,164 @@
     .order-btn:hover {
       background-color: #fdd;
     }
+
+    .checkout-btn {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+      background-color: #fdd;
+      color: #000;
+
+    }
+
+    /* Cart Sidebar */
+.cart {
+  width: 300px;
+  background: #fff;
+  border-left: 2px solid #ccc;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+}
+
+.cart h3 {
+  margin-top: 0;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.cart-item-name {
+  flex: 1;
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.qty-btn {
+  width: 25px;
+  height: 25px;
+  background: #eee;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.total {
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: right;
+}
+
+/* Cart Panel Sidebar */
+.cart-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100vh;
+  background: #fff;
+  border-left: 2px solid #ccc;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 9998;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+/* When visible */
+.cart-panel.active {
+  transform: translateX(0);
+}
+
+/* Optional: prevent content from scrolling underneath */
+body.cart-open {
+  overflow: hidden;
+}
+
+/* Button in Cart */
+.checkout-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: #28a745;
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#cart-toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 22px;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 9999; /* make sure it’s on top */
+  transition: background-color 0.2s ease;
+}
+
+#cart-toggle-btn:hover {
+  background-color: #232323;
+}
+
+
+/* Dark background overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: opacity 0.3s ease;
+}
+
+/* White circular message */
+.popup {
+  background-color: white;
+  padding: 30px 40px;
+  border-radius: 100px;
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+/* Hidden by default */
+.hidden {
+  display: none;
+}
+
   </style>
 </head>
 <body>
@@ -109,34 +268,69 @@
     <h1>JL! FOODS</h1>
     <p>Delicious homemade meals, made with love.</p>
   </header>
-
   <nav>
     <a href="#menu">Menu</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
+    <div>
+    <button id="cart-toggle-btn" class="shopping-cart">
+      🛒
+    </button>
+    </div>
   </nav>
-
   <div class="hero">
     <h2>Fresh. Tasty. Local.</h2>
   </div>
-
-  <section id="menu">
-    <h2>Our Menu</h2>
-    <div class="menu-item">
-      <strong>Spicy Chicken Wrap</strong> - $8.00<br/>
-      Grilled chicken, lettuce, and spicy mayo.
-    </div>
-    <div class="menu-item">
-      <strong>Veggie Bowl</strong> - $7.00<br/>
-      Rice, roasted veggies, and tahini sauce.
-    </div>
-    <!-- Add more items here -->
-  </section>
-
   <section id="about">
     <h2>About Us</h2>
-    <p>We’re a family-run business passionate about serving healthy, affordable meals made from scratch.</p>
+    <p>We’re a family-run business passionate about serving affordable desserts made from scratch.</p>
   </section>
+  <section id="menu">
+    <h2>Menu</h2>
+
+    <div class="container">
+      <!-- Product Grid -->
+      <div class="product-grid">
+        <div class="card" data-name="Leche Flan" data-price="95">
+          <img src="pancake.png" alt="Leche Flan" />
+          <div class="product-name">Leche Flan</div>
+          <div class="price">₱ 95</div>
+          <button class="order-btn" onclick="addToCart(this); showAddToCartPopup()">Order now!</button>
+        </div>
+        <div class="product-grid">
+          <div class="card" data-name="Pancake" data-price="100">
+            <img src="pancake.png" alt="Pancake" />
+            <div class="product-name">Leche Flan</div>
+            <div class="price">₱ 100</div>
+            <button class="order-btn" onclick="addToCart(this); showAddToCartPopup()">Order now!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+        <!-- You can duplicate the card above for more products -->
+     
+
+<!-- Shopping Cart Panel -->
+<div id="cart-panel" class="cart-panel">
+  <div class="cart">
+    <h3>Your Cart</h3>
+    <div id="cart-items"></div>
+    <div class="total">Total: ₱ <span id="cart-total">0</span></div>
+    <button onclick="goToCheckout()" class="checkout-btn" >Proceed to Checkout</button>
+  </div>
+</div>
+
+
+    <!--
+    <div class="menu-item">
+      <strong>Sample Item</strong> - ₱7.00<br/>
+      Rice, roasted veggies, and tahini sauce.
+    </div>
+    -->
+    <!-- Add more items here -->
+
 
   <section id="contact">
     <h2>Contact</h2>
@@ -145,40 +339,147 @@
     <p>Follow us on <a href="#">Instagram</a> and <a href="https://www.facebook.com/people/JL-FOODS/61576339462095/" target="_blank">Facebook</a></p>
   </section>
 
-  <div class="product-grid">
-    <!-- Repeat this .card block for each item -->
-    <div class="card">
-      <img src="https://cdn.discordapp.com/attachments/1333685893600645152/1371718312710377505/JLFOODS_Menu.png?ex=682427bb&is=6822d63b&hm=deace09d37c1ae32fba5c4d6115c2543ea6bf371758d5839b7e298823b12a37a&" alt="Leche Flan" />
-      <div class="product-name">Leche Flan</div>
-      <div class="price">₱ 95</div>
-      <button class="order-btn">Order now!</button>
-    </div>
+
+  <!-- Overlay and Popup -->
+<div id="item-added-overlay" class="overlay hidden">
+  <div class="popup">
+    ✅ Item added to cart
+  </div>
+</div>
+
+
+
 <!--
+  <div class="product-grid">
+    Repeat this .card block for each item
     <div class="card">
-      <img src="https://cdn.discordapp.com/attachments/1333685893600645152/1371718312710377505/JLFOODS_Menu.png?ex=682427bb&is=6822d63b&hm=deace09d37c1ae32fba5c4d6115c2543ea6bf371758d5839b7e298823b12a37a&" alt="Leche Flan" />
+      <img src="pancake.png" alt="Leche Flan" />
+      <div class="product-name">Leche Flan</div>
+      <div class="price">₱ 95</div>
+      <button class="order-btn">Order now!</button>
+    </div>
+    <div class="card" data-name="Leche Flan" data-price="95">
+        <img src="pancake.png" alt="Leche Flan" />
+        <div class="product-name">Leche Flan</div>
+        <div class="price">₱ 95</div>
+        <button class="order-btn" onclick="addToCart(this)">Order now!</button>
+    </div>
+    <div class="card">
+      <img src="pancake.png" alt="Leche Flan" />
       <div class="product-name">Leche Flan</div>
       <div class="price">₱ 95</div>
       <button class="order-btn">Order now!</button>
     </div>
 
     <div class="card">
-      <img src="https://cdn.discordapp.com/attachments/1333685893600645152/1371718312710377505/JLFOODS_Menu.png?ex=682427bb&is=6822d63b&hm=deace09d37c1ae32fba5c4d6115c2543ea6bf371758d5839b7e298823b12a37a&" alt="Leche Flan" />
+      <img src="pancake.png" alt="Leche Flan" />
       <div class="product-name">Leche Flan</div>
       <div class="price">₱ 95</div>
       <button class="order-btn">Order now!</button>
     </div>
 
     <div class="card">
-      <img src="https://cdn.discordapp.com/attachments/1333685893600645152/1371718312710377505/JLFOODS_Menu.png?ex=682427bb&is=6822d63b&hm=deace09d37c1ae32fba5c4d6115c2543ea6bf371758d5839b7e298823b12a37a&" alt="Leche Flan" />
+      <img src="pancake.png" alt="Leche Flan" />
       <div class="product-name">Leche Flan</div>
       <div class="price">₱ 95</div>
       <button class="order-btn">Order now!</button>
     </div>
 -->
-  </div>
 
     <footer>
-        &copy; 2025 Your Food Business. All rights reserved.
+        &copy; 2025 JL! FOODS. All rights reserved.
     </footer>
+
+
+
+<!--SCRIPT-->
+    <script>
+  let cart = [];
+
+  function addToCart(button) {
+    const card = button.closest('.card');
+    const name = card.getAttribute('data-name');
+    const price = parseFloat(card.getAttribute('data-price'));
+
+    // Check if already in cart
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ name, price, quantity: 1 });
+    }
+
+    renderCart();
+  }
+
+  function changeQuantity(name, delta) {
+    const item = cart.find(i => i.name === name);
+    if (!item) return;
+
+    item.quantity += delta;
+    if (item.quantity <= 0) {
+      cart = cart.filter(i => i.name !== name);
+    }
+
+    renderCart();
+  }
+
+  function renderCart() {
+    const cartContainer = document.getElementById('cart-items');
+    const totalDisplay = document.getElementById('cart-total');
+    cartContainer.innerHTML = '';
+
+    let total = 0;
+
+    cart.forEach(item => {
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'cart-item';
+      itemDiv.innerHTML = `
+        <div class="cart-item-name">${item.name}</div>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="changeQuantity('${item.name}', -1)">-</button>
+          <span>${item.quantity}</span>
+          <button class="qty-btn" onclick="changeQuantity('${item.name}', 1)">+</button>
+        </div>
+        <div>₱${item.price * item.quantity}</div>
+      `;
+      cartContainer.appendChild(itemDiv);
+      total += item.price * item.quantity;
+    });
+
+    totalDisplay.textContent = total.toFixed(2);
+  }
+
+  function goToCheckout() {
+  // Save cart to localStorage
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  // Redirect to checkout page
+  window.location.href = 'checkout.html';
+}
+
+  const cartBtn = document.getElementById('cart-toggle-btn');
+  const cartPanel = document.getElementById('cart-panel');
+
+  cartBtn.addEventListener('click', () => {
+    cartPanel.classList.toggle('active');         // Slide in/out panel
+    document.body.classList.toggle('cart-open');  // Optional body scroll lock
+  });
+
+  function showAddToCartPopup() {
+  const overlay = document.getElementById('item-added-overlay');
+  overlay.classList.remove('hidden');
+
+  // Hide after 2 seconds
+  setTimeout(() => {
+    overlay.classList.add('hidden');
+  }, 2000);
+}
+
+
+
+</script>
+
+
 </body>
 </html>
